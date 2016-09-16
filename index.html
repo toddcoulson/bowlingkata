@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bowling Game</title>
+    <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+        <style type="text/css">
+            table{
+                width: 100%;
+            }
+            tr {
+                
+            }
+
+            th,
+            td {
+                border: 1px solid #ccc;
+                font-size: 20px;
+                font-family: "Open Sans", Helvetica;
+                padding: 15px;
+            }
+            
+            #finalScore{
+                font-size: 20px;
+                font-family: "Open Sans", Helvetica;
+            }
+            
+            /* Reset */
+            button {
+                width: 200px;
+              background: transparent;
+              border: 0;
+              padding: 0;
+              cursor: pointer;
+              outline: 0;
+              -webkit-appearance: none;
+            }
+
+            /* Custom */
+            button {
+                display: inline-block;
+                position: relative;
+                padding: 10px 20px;
+                margin:10px;
+                top: 0;
+                font-size: 20px;
+                font-family: "Open Sans", Helvetica;
+                border-radius: 4px;
+                background: rgba( 22, 180, 137, 1 );
+                color: #fff;
+                box-shadow: 1px 1px 1px rgba( 15, 165, 60, 0.1 );
+
+                -webkit-transition: all 0.2s ease;
+                   -moz-transition: all 0.2s ease;
+                    -ms-transition: all 0.2s ease;
+                        transition: all 0.2s ease;
+            }
+
+            button:hover {
+              top: -5px;
+              box-shadow: 5px 5px 5px rgba( 15, 165, 60, 0.2 );
+
+              
+            }
+
+            button:active {
+              top: 0px;
+              box-shadow: 0px 0px 0px rgba( 15, 165, 60, 0.0 );
+              background: rgba( 20, 224, 133, 1 );
+            }
+        </style>
+        
+        
+        
+        
+        <script type="text/javascript">
+        $(function() {
+            $('.takeTurn').submit(function(e){
+                $.ajax({
+                    url: 'php/bowlingNS/returnTurn.php',
+                    type:"GET",
+                    success: function(data) {
+                        
+                        console.log(data);
+                    },
+                     error: function(error){
+                        console.log('error', error);
+                     }
+                });
+                
+                e.preventDefault();
+            });
+            
+            $('.takeFrame').submit(function(e){
+                $.ajax({
+                    url: 'php/bowlingNS/returnFrame.php',
+                    type:"GET",
+                    success: function(data) {
+                        
+                        console.log(data);
+                    },
+                     error: function(error){
+                        console.log('error', error);
+                     }
+                });
+                
+                e.preventDefault();
+            });
+            
+            $('.take10Frame').submit(function(e){
+                $.ajax({
+                    url: 'php/bowlingNS/return10Frame.php',
+                    type:"GET",
+                    success: function(data) {
+                        
+                        console.log(data);
+                    },
+                     error: function(error){
+                        console.log('error', error);
+                     }
+                });
+                
+                e.preventDefault();
+            });
+            $('.showGame').submit(function(e){
+                $.ajax({
+                    url: 'php/bowlingNS/returnGame.php',
+                    type:"GET",
+                    success: function(data) {
+                        var row = $('<tr>');
+                        for(var i = 0; i < data.display.length; i++) {
+                            row.append($('<td>').html(data.display[i]));
+                        }
+                        $('#frameDisplay tbody tr').replaceWith(row);
+                        $('#finalScore .replace').replaceWith("<span class='replace'>" + data.score+"</span>");
+                        console.log(data);
+                    },
+                     error: function(error){
+                        console.log('error', error);
+                     }
+                });
+                
+                e.preventDefault();
+            });
+        });
+        
+        
+    </script>
+</head>
+<body>
+   <form class="takeTurn"><button type="submit">Take Turn</button></form>
+   <form class="takeFrame"><button type="submit">Take Frame</button></form>
+   <form class="take10Frame"><button type="submit">Take 10th Frame</button></form>
+   <form class="showGame"><button type="submit">Play Game</button></form>
+   <table id="frameDisplay"><tr></tr></table><div id="finalScore">Final Score:<span class="replace"></span></div>
+</body>
+</html>
